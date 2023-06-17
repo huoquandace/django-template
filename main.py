@@ -53,8 +53,6 @@ LANGUAGES = (
     ('ja', _('Japanese')),
 )
 
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
