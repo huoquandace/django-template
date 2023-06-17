@@ -8,6 +8,12 @@ SECRET_KEY = 'django-insecure-secret-key'
 BASE_DIR = Path(__file__).resolve().parent
 BASE_FILE_NAME = os.path.basename(__file__).split('.')[0]
 
+# Init file
+# -------------------------------------------------------------------------
+try: open('__init__.py','r')
+except IOError: open('__init__.py', 'w+')
+# -------------------------------------------------------------------------
+
 # Management
 # -------------------------------------------------------------------------
 def main():
