@@ -1,15 +1,15 @@
-MANAGE_FILE:=main.py
+MANAGE_FILE:=main
 SERVER_PORT:=80
 
 # All
 .PHONY: all
 all:
-	python $(MANAGE_FILE) makemigrations
-	python $(MANAGE_FILE) migrate
-	python $(MANAGE_FILE) shell -c "from django.contrib.auth.models import User; \
+	python $(MANAGE_FILE).py makemigrations
+	python $(MANAGE_FILE).py migrate
+	python $(MANAGE_FILE).py shell -c "from django.contrib.auth.models import User; \
 		User.objects.filter(username='admin').exists() or \
 		User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
-	python $(MANAGE_FILE) runserver $(SERVER_PORT)
+	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
 
 # Create env
 .PHONY: env
@@ -19,12 +19,12 @@ env:
 # Runserver
 .PHONY: server
 server:
-	python $(MANAGE_FILE) runserver $(SERVER_PORT)
+	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
 
 # Create superuser
 .PHONY: admin
 admin:
-	python $(MANAGE_FILE) shell -c "from django.contrib.auth.models import User; \
+	python $(MANAGE_FILE).py shell -c "from django.contrib.auth.models import User; \
 	User.objects.filter(username='admin').exists() or \
 	User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
@@ -37,7 +37,7 @@ endif
 app:
 	mkdir apps\$(ARGS)
 	django-admin startapp $(ARGS) apps\$(ARGS)
-	echo from configs.settings import INSTALLED_APPS > apps\$(ARGS)\settings.py
+	echo from $(MANAGE_FILE) import INSTALLED_APPS > apps\$(ARGS)\settings.py
 	echo. >> apps\$(ARGS)\settings.py
 	echo INSTALLED_APPS += ['$(ARGS)',] >> apps\$(ARGS)\settings.py
 
