@@ -9,17 +9,19 @@ BASE_DIR = Path(__file__).resolve().parent
 BASE_FILE_NAME = os.path.basename(__file__).split('.')[0]
 
 # Management
+# -------------------------------------------------------------------------
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', BASE_FILE_NAME)
     try: from django.core.management import execute_from_command_line
-    except ImportError as exc: raise ImportError("Did you forget to activate a virtual environment?") from exc
+    except ImportError as exc: raise ImportError("Forget venv?") from exc
     execute_from_command_line(sys.argv)
 if __name__ == '__main__': main()
+# -------------------------------------------------------------------------
 
 DEBUG = True
 ALLOWED_HOSTS = []
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = BASE_FILE_NAME
 WSGI_APPLICATION = BASE_FILE_NAME + '.application'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -117,7 +119,29 @@ for file in apps_dir:
         except ImportError: pass
 
 # Wsgi configs
+# -------------------------------------------------------------------------
 from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', BASE_FILE_NAME)
 application = get_wsgi_application()
+# -------------------------------------------------------------------------
 
+# Urls
+# -------------------------------------------------------------------------
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+urlpatterns += [
+    path('i18n/', include('django.conf.urls.i18n')),
+]
+urlpatterns += i18n_patterns (
+    # prefix_default_language=False
+)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# -------------------------------------------------------------------------
