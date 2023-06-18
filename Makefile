@@ -53,6 +53,7 @@ app:
 	@echo 	except AlreadyRegistered: pass >> apps\$(ARGS)\admin.py
 
 	@echo from django.urls import path >> apps\$(ARGS)\urls.py
+	@echo from .views import * >> apps\$(ARGS)\urls.py
 	@echo. >> apps\$(ARGS)\urls.py
 	@echo urlpatterns = [ >> apps\$(ARGS)\urls.py
 	@echo. >> apps\$(ARGS)\urls.py
