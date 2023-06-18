@@ -37,10 +37,26 @@ endif
 app:
 	mkdir apps\$(ARGS)
 	django-admin startapp $(ARGS) apps\$(ARGS)
-	echo from $(MANAGE_FILE) import INSTALLED_APPS > apps\$(ARGS)\settings.py
-	echo. >> apps\$(ARGS)\settings.py
-	echo INSTALLED_APPS += ['$(ARGS)',] >> apps\$(ARGS)\settings.py
+	@echo. >> apps\$(ARGS)\apps.py	
+	@echo from main import INSTALLED_APPS  >> apps\$(ARGS)\apps.py	
+	@echo INSTALLED_APPS += ['$(ARGS)',]  >> apps\$(ARGS)\apps.py	
 
+	@echo *.py > apps\$(ARGS)\migrations\.gitignore
+	@echo !__init__.py >> apps\$(ARGS)\migrations\.gitignore
+
+	@echo from django.apps import apps > apps\$(ARGS)\admin.py
+	@echo from django.contrib import admin >> apps\$(ARGS)\admin.py
+	@echo from django.contrib.admin.sites import AlreadyRegistered >> apps\$(ARGS)\admin.py
+	@echo. >> apps\$(ARGS)\admin.py
+	@echo for model in apps.get_app_config('$(ARGS)').get_models(): >> apps\$(ARGS)\admin.py
+	@echo 	try: admin.site.register(model) >> apps\$(ARGS)\admin.py
+	@echo 	except AlreadyRegistered: pass >> apps\$(ARGS)\admin.py
+
+	@echo from django.urls import path >> apps\$(ARGS)\urls.py
+	@echo. >> apps\$(ARGS)\urls.py
+	@echo urlpatterns = [ >> apps\$(ARGS)\urls.py
+	@echo. >> apps\$(ARGS)\urls.py
+	@echo ] >> apps\$(ARGS)\urls.py
 # Push
 .PHONY: git
 git:
