@@ -140,6 +140,10 @@ manage:
 	@echo 	('vi', _('Vietnamese')), >> $(MANAGE_FILE).py
 	@echo 	('ja', _('Japanese')), >> $(MANAGE_FILE).py
 	@echo ) >> $(MANAGE_FILE).py
+	@echo if not os.path.exists(BASE_DIR / 'locale'): os.mkdir('locale') >> $(MANAGE_FILE).py
+	@echo for lang in LANGUAGES: >> $(MANAGE_FILE).py
+	@echo 	if not os.path.exists(BASE_DIR / 'locale' / lang[0]): os.mkdir(BASE_DIR / 'locale' / lang[0]) >> $(MANAGE_FILE).py
+	@echo 	if not os.path.exists(BASE_DIR / 'locale' / lang[0] / 'LC_MESSAGES'): os.mkdir(BASE_DIR / 'locale' / lang[0] / 'LC_MESSAGES') >> $(MANAGE_FILE).py
 	@echo. >> $(MANAGE_FILE).py
 	@echo INSTALLED_APPS = [ >> $(MANAGE_FILE).py
 	@echo 	'django.contrib.admin', >> $(MANAGE_FILE).py
