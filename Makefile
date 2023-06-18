@@ -116,9 +116,9 @@ manage:
 	@echo if not os.path.exists(BASE_DIR/'static'): os.mkdir('static') >> $(MANAGE_FILE).py
 	@echo STATIC_URL = 'static/' >> $(MANAGE_FILE).py
 	@echo STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] >> $(MANAGE_FILE).py
-	@echo if not os.path.exists(BASE_DIR/'media'): os.mkdir('media') >> $(MANAGE_FILE).py
-	@echo MEDIA_URL = '/media/' >> $(MANAGE_FILE).py
-	@echo MEDIA_ROOT = os.path.join(BASE_DIR, 'media') >> $(MANAGE_FILE).py
+	@echo if not os.path.exists(BASE_DIR/'uploads'): os.mkdir('uploads') >> $(MANAGE_FILE).py
+	@echo MEDIA_URL = '/uploads/' >> $(MANAGE_FILE).py
+	@echo MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads') >> $(MANAGE_FILE).py
 	@echo. >> $(MANAGE_FILE).py
 	@echo # Email configs >> $(MANAGE_FILE).py
 	@echo EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' >> $(MANAGE_FILE).py
