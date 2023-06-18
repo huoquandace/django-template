@@ -240,3 +240,11 @@ manage:
 	@echo urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) >> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) >> $(MANAGE_FILE).py
 	@echo # ------------------------------------------------------------------------- >> $(MANAGE_FILE).py
+
+.PHONY: message
+message:
+	django-admin makemessages --all --ignore=env
+
+.PHONY: lang
+lang:
+	django-admin compilemessages --ignore=env
