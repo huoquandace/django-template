@@ -37,8 +37,8 @@ endif
 app:
 	mkdir apps\$(ARGS)
 	django-admin startapp $(ARGS) apps\$(ARGS)
-	@echo. >> apps\$(ARGS)\apps.py	
-	@echo from main import INSTALLED_APPS  >> apps\$(ARGS)\apps.py	
+	@echo.>> apps\$(ARGS)\apps.py	
+	@echo from $(MANAGE_FILE) import INSTALLED_APPS  >> apps\$(ARGS)\apps.py	
 	@echo INSTALLED_APPS += ['$(ARGS)',]  >> apps\$(ARGS)\apps.py	
 
 	@echo *.py > apps\$(ARGS)\migrations\.gitignore
@@ -193,7 +193,7 @@ manage:
 	@echo for file in apps_dir: >> $(MANAGE_FILE).py
 	@echo 	dir= os.path.join(APPS_PATH, file) >> $(MANAGE_FILE).py
 	@echo 	if os.path.isdir(dir): >> $(MANAGE_FILE).py
-	@echo 		try: __import__(dir.split('\\')[-1] + '.settings', fromlist='__all__') >> $(MANAGE_FILE).py
+	@echo 		try: __import__(dir.split('\\')[-1] + '.apps', fromlist='__all__') >> $(MANAGE_FILE).py
 	@echo 		except ImportError: pass >> $(MANAGE_FILE).py
 	@echo. >> $(MANAGE_FILE).py
 	@echo # Wsgi configs >> $(MANAGE_FILE).py
