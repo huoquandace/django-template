@@ -58,6 +58,12 @@ app:
 	@echo urlpatterns = [ >> apps\$(ARGS)\urls.py
 	@echo. >> apps\$(ARGS)\urls.py
 	@echo ] >> apps\$(ARGS)\urls.py
+
+	@echo from django.shortcuts import render, HttpResponse > apps\$(ARGS)\views.py
+	@echo from django.urls import path, include >> apps\$(ARGS)\views.py
+	@echo.  >> apps\$(ARGS)\views.py
+	@echo inc_path = path('$(ARGS)/', include('$(ARGS).urls')) >> apps\$(ARGS)\views.py
+	@echo. >> apps\$(ARGS)\views.py
 # Push
 .PHONY: git
 git:
@@ -72,7 +78,7 @@ ignore:
 # manage
 .PHONY: manage
 manage:
-	@echo import os, sys > $(MANAGE_FILE).py
+	@echo import os, sys, imp > $(MANAGE_FILE).py
 	@echo from pathlib import Path >> $(MANAGE_FILE).py
 	@echo from django.utils.translation import gettext_lazy as _ >> $(MANAGE_FILE).py
 	@echo. >> $(MANAGE_FILE).py
@@ -216,9 +222,16 @@ manage:
 	@echo 	path('admin/', admin.site.urls), >> $(MANAGE_FILE).py
 	@echo 	path('i18n/', include('django.conf.urls.i18n')), >> $(MANAGE_FILE).py
 	@echo ] >> $(MANAGE_FILE).py
-	@echo urlpatterns += i18n_patterns ( >> $(MANAGE_FILE).py
+	@echo. >> $(MANAGE_FILE).py
+	@echo for file in apps_dir: >> $(MANAGE_FILE).py
+	@echo 	dir= os.path.join(APPS_PATH, file)  >> $(MANAGE_FILE).py
+	@echo 	full_path = os.path.join(dir, 'views.py') >> $(MANAGE_FILE).py
+	@echo 	foo = imp.load_source('views.py', full_path) >> $(MANAGE_FILE).py
+	@echo 	urlpatterns += i18n_patterns(foo.inc_path,) >> $(MANAGE_FILE).py
+	@echo. >> $(MANAGE_FILE).py
+	@echo # urlpatterns += i18n_patterns ( >> $(MANAGE_FILE).py
 	@echo 	# prefix_default_language=False >> $(MANAGE_FILE).py
-	@echo ) >> $(MANAGE_FILE).py
+	@echo # ) >> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) >> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) >> $(MANAGE_FILE).py
 	@echo # ------------------------------------------------------------------------- >> $(MANAGE_FILE).py
