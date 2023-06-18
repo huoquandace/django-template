@@ -78,7 +78,8 @@ ignore:
 # manage
 .PHONY: manage
 manage:
-	@echo import os, sys, imp > $(MANAGE_FILE).py
+	@echo import os, sys > $(MANAGE_FILE).py
+	@echo from importlib.machinery import SourceFileLoader >> $(MANAGE_FILE).py
 	@echo from pathlib import Path >> $(MANAGE_FILE).py
 	@echo from django.utils.translation import gettext_lazy as _ >> $(MANAGE_FILE).py
 	@echo. >> $(MANAGE_FILE).py
@@ -226,7 +227,7 @@ manage:
 	@echo for file in apps_dir: >> $(MANAGE_FILE).py
 	@echo 	dir= os.path.join(APPS_PATH, file)  >> $(MANAGE_FILE).py
 	@echo 	full_path = os.path.join(dir, 'views.py') >> $(MANAGE_FILE).py
-	@echo 	foo = imp.load_source('views.py', full_path) >> $(MANAGE_FILE).py
+	@echo 	foo = SourceFileLoader('views.py', full_path).load_module() >> $(MANAGE_FILE).py
 	@echo 	urlpatterns += i18n_patterns(foo.inc_path,) >> $(MANAGE_FILE).py
 	@echo. >> $(MANAGE_FILE).py
 	@echo # urlpatterns += i18n_patterns ( >> $(MANAGE_FILE).py
