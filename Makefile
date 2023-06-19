@@ -29,7 +29,7 @@ server:
 # Create superuser
 .PHONY: admin
 admin:
-	python $(MANAGE_FILE).py shell -c "from django.contrib.auth.models import User; \
+	python $(MANAGE_FILE).py shell -c "from django.contrib.auth import User; \
 	User.objects.filter(username='admin').exists() or \
 	User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
