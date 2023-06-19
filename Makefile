@@ -11,7 +11,7 @@ SERVER_PORT:=80
 all:
 	python $(MANAGE_FILE).py makemigrations
 	python $(MANAGE_FILE).py migrate
-	python $(MANAGE_FILE).py shell -c "from django.contrib.auth.models import get_user_model; \
+	python $(MANAGE_FILE).py shell -c "from django.contrib.auth. import get_user_model; \
 		get_user_model().objects.filter(username='admin').exists() or \
 		get_user_model().objects.create_superuser('admin', 'admin@admin.com', 'admin')"
 	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
@@ -29,9 +29,9 @@ server:
 # Create superuser
 .PHONY: admin
 admin:
-	python $(MANAGE_FILE).py shell -c "from django.contrib.auth import User; \
-	User.objects.filter(username='admin').exists() or \
-	User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
+	python $(MANAGE_FILE).py shell -c "from django.contrib.auth. import get_user_model; \
+		get_user_model().objects.filter(username='admin').exists() or \
+		get_user_model().objects.create_superuser('admin', 'admin@admin.com', 'admin')"
 
 # Create new app
 ifeq (app,$(firstword $(MAKECMDGOALS)))
