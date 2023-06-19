@@ -219,7 +219,7 @@ app:
 
 	@echo from django.shortcuts import render, HttpResponse> apps\$(ARGS)\views.py
 	@echo from django.urls import path, include>> apps\$(ARGS)\views.py
-	@echo. >> apps\$(ARGS)\views.py
+	@echo.>> apps\$(ARGS)\views.py
 	@echo inc_path = path('$(ARGS)/', include('$(ARGS).urls'))>> apps\$(ARGS)\views.py
 	@echo.>> apps\$(ARGS)\views.py
 # Push
