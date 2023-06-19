@@ -22,21 +22,32 @@ start:
 	@echo os.environ.setdefault('DJANGO_SETTINGS_MODULE', '$(SETTINGS_FILE)')>> $(WSGI_FILE).py
 	@echo application = get_wsgi_application()>> $(WSGI_FILE).py
 
-	@echo from django.conf import settings> $(URLS_FILE).py
+	@echo import os> $(URLS_FILE).py
+	@echo from settings import APPS_PATH>> $(URLS_FILE).py
+	@echo from django.conf import settings>> $(URLS_FILE).py
 	@echo from django.conf.urls.static import static>> $(URLS_FILE).py
 	@echo from django.contrib import admin>> $(URLS_FILE).py
 	@echo from django.urls import path, include>> $(URLS_FILE).py
 	@echo from django.conf.urls.i18n import i18n_patterns>> $(URLS_FILE).py
+	@echo from importlib.machinery import SourceFileLoader>> $(URLS_FILE).py
 	@echo.>> $(URLS_FILE).py
 	@echo urlpatterns = [>> $(URLS_FILE).py
 	@echo 	path('admin/', admin.site.urls),>> $(URLS_FILE).py
 	@echo 	path('i18n/', include('django.conf.urls.i18n')),>> $(URLS_FILE).py
 	@echo ]>> $(URLS_FILE).py
 	@echo.>> $(URLS_FILE).py
-	@echo urlpatterns += i18n_patterns (>> $(URLS_FILE).py
+	@echo for file in os.listdir(APPS_PATH):>> $(URLS_FILE).py
+	@echo 	dir= os.path.join(APPS_PATH, file) >> $(URLS_FILE).py
+	@echo 	full_path = os.path.join(dir, 'views.py')>> $(URLS_FILE).py
+	@echo 	try:>> $(URLS_FILE).py
+	@echo 		foo = SourceFileLoader('views.py', full_path).load_module()>> $(URLS_FILE).py
+	@echo 		urlpatterns += i18n_patterns(foo.inc_path,)>> $(URLS_FILE).py
+	@echo 	except: pass>> $(URLS_FILE).py
+	@echo.>> $(URLS_FILE).py
+	@echo # urlpatterns += i18n_patterns (>> $(URLS_FILE).py
 	@echo. 	>> $(URLS_FILE).py
 	@echo 	# prefix_default_language=False>> $(URLS_FILE).py
-	@echo )>> $(URLS_FILE).py
+	@echo # )>> $(URLS_FILE).py
 	@echo urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)>> $(URLS_FILE).py
 	@echo urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)>> $(URLS_FILE).py
 
@@ -142,6 +153,11 @@ start:
 	@echo 	{'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},>> $(SETTINGS_FILE).py
 	@echo 	{'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},>> $(SETTINGS_FILE).py
 	@echo ]>> $(SETTINGS_FILE).py
+	@echo.>> $(SETTINGS_FILE).py
+	@echo for file in os.listdir(APPS_PATH):>> $(SETTINGS_FILE).py
+	@echo 	if os.path.isdir(os.path.join(APPS_PATH, file)):>> $(SETTINGS_FILE).py
+	@echo 		try: __import__(file + '.apps', fromlist='__all__')>> $(SETTINGS_FILE).py
+	@echo 		except ImportError: pass>> $(SETTINGS_FILE).py
 
 # All
 .PHONY: all
@@ -180,32 +196,32 @@ app:
 	mkdir apps\$(ARGS)
 	django-admin startapp $(ARGS) apps\$(ARGS)
 	@echo.>> apps\$(ARGS)\apps.py	
-	@echo from $(MANAGE_FILE) import INSTALLED_APPS  >> apps\$(ARGS)\apps.py	
-	@echo INSTALLED_APPS += ['$(ARGS)',]  >> apps\$(ARGS)\apps.py	
+	@echo from $(SETTINGS_FILE) import INSTALLED_APPS>> apps\$(ARGS)\apps.py	
+	@echo INSTALLED_APPS += ['$(ARGS)',]>> apps\$(ARGS)\apps.py	
 
-	@echo *.py > apps\$(ARGS)\migrations\.gitignore
-	@echo !__init__.py >> apps\$(ARGS)\migrations\.gitignore
+	@echo *.py> apps\$(ARGS)\migrations\.gitignore
+	@echo !__init__.py>> apps\$(ARGS)\migrations\.gitignore
 
-	@echo from django.apps import apps > apps\$(ARGS)\admin.py
-	@echo from django.contrib import admin >> apps\$(ARGS)\admin.py
-	@echo from django.contrib.admin.sites import AlreadyRegistered >> apps\$(ARGS)\admin.py
-	@echo. >> apps\$(ARGS)\admin.py
-	@echo for model in apps.get_app_config('$(ARGS)').get_models(): >> apps\$(ARGS)\admin.py
-	@echo 	try: admin.site.register(model) >> apps\$(ARGS)\admin.py
-	@echo 	except AlreadyRegistered: pass >> apps\$(ARGS)\admin.py
+	@echo from django.apps import apps> apps\$(ARGS)\admin.py
+	@echo from django.contrib import admin>> apps\$(ARGS)\admin.py
+	@echo from django.contrib.admin.sites import AlreadyRegistered>> apps\$(ARGS)\admin.py
+	@echo.>> apps\$(ARGS)\admin.py
+	@echo for model in apps.get_app_config('$(ARGS)').get_models():>> apps\$(ARGS)\admin.py
+	@echo 	try: admin.site.register(model)>> apps\$(ARGS)\admin.py
+	@echo 	except AlreadyRegistered: pass>> apps\$(ARGS)\admin.py
 
-	@echo from django.urls import path >> apps\$(ARGS)\urls.py
-	@echo from .views import * >> apps\$(ARGS)\urls.py
-	@echo. >> apps\$(ARGS)\urls.py
-	@echo urlpatterns = [ >> apps\$(ARGS)\urls.py
-	@echo. >> apps\$(ARGS)\urls.py
-	@echo ] >> apps\$(ARGS)\urls.py
+	@echo from django.urls import path>> apps\$(ARGS)\urls.py
+	@echo from .views import *>> apps\$(ARGS)\urls.py
+	@echo.>> apps\$(ARGS)\urls.py
+	@echo urlpatterns = [>> apps\$(ARGS)\urls.py
+	@echo.>> apps\$(ARGS)\urls.py
+	@echo ]>> apps\$(ARGS)\urls.py
 
-	@echo from django.shortcuts import render, HttpResponse > apps\$(ARGS)\views.py
-	@echo from django.urls import path, include >> apps\$(ARGS)\views.py
-	@echo.  >> apps\$(ARGS)\views.py
-	@echo inc_path = path('$(ARGS)/', include('$(ARGS).urls')) >> apps\$(ARGS)\views.py
+	@echo from django.shortcuts import render, HttpResponse> apps\$(ARGS)\views.py
+	@echo from django.urls import path, include>> apps\$(ARGS)\views.py
 	@echo. >> apps\$(ARGS)\views.py
+	@echo inc_path = path('$(ARGS)/', include('$(ARGS).urls'))>> apps\$(ARGS)\views.py
+	@echo.>> apps\$(ARGS)\views.py
 # Push
 .PHONY: git
 git:
