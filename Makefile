@@ -206,14 +206,11 @@ manage:
 	@echo 		except ImportError: pass>> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
 	@echo # Wsgi configs>> $(MANAGE_FILE).py
-	@echo # ------------------------------------------------------------------------->> $(MANAGE_FILE).py
 	@echo from django.core.wsgi import get_wsgi_application>> $(MANAGE_FILE).py
 	@echo os.environ.setdefault('DJANGO_SETTINGS_MODULE', BASE_FILE_NAME)>> $(MANAGE_FILE).py
 	@echo application = get_wsgi_application()>> $(MANAGE_FILE).py
-	@echo # ------------------------------------------------------------------------->> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
 	@echo # Urls>> $(MANAGE_FILE).py
-	@echo # ------------------------------------------------------------------------->> $(MANAGE_FILE).py
 	@echo from django.conf import settings>> $(MANAGE_FILE).py
 	@echo from django.conf.urls.static import static>> $(MANAGE_FILE).py
 	@echo from django.contrib import admin>> $(MANAGE_FILE).py
@@ -236,7 +233,6 @@ manage:
 	@echo # )>> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)>> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)>> $(MANAGE_FILE).py
-	@echo # ------------------------------------------------------------------------->> $(MANAGE_FILE).py
 
 .PHONY: message
 message:
