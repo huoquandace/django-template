@@ -225,8 +225,10 @@ manage:
 	@echo for file in apps_dir:>> $(MANAGE_FILE).py
 	@echo 	dir= os.path.join(APPS_PATH, file) >> $(MANAGE_FILE).py
 	@echo 	full_path = os.path.join(dir, 'views.py')>> $(MANAGE_FILE).py
-	@echo 	foo = SourceFileLoader('views.py', full_path).load_module()>> $(MANAGE_FILE).py
-	@echo 	urlpatterns += i18n_patterns(foo.inc_path,)>> $(MANAGE_FILE).py
+	@echo 	try:>> $(MANAGE_FILE).py
+	@echo 		foo = SourceFileLoader('views.py', full_path).load_module()>> $(MANAGE_FILE).py
+	@echo 		urlpatterns += i18n_patterns(foo.inc_path,)>> $(MANAGE_FILE).py
+	@echo 	except: pass>> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
 	@echo # urlpatterns += i18n_patterns (>> $(MANAGE_FILE).py
 	@echo 	# prefix_default_language=False>> $(MANAGE_FILE).py
