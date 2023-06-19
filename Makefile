@@ -238,6 +238,60 @@ manage:
 auth:
 	make app $(AUTH_APP_NAME)
 
+	@echo from django.db import models>> apps\$(AUTH_APP_NAME)\models.py
+	@echo from django.contrib import auth>> apps\$(AUTH_APP_NAME)\models.py
+	@echo from django.utils import timezone>> apps\$(AUTH_APP_NAME)\models.py
+	@echo from django.utils.translation import gettext_lazy as _>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo class User(auth.models.AbstractBaseUser, auth.models.PermissionsMixin):>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	username = models.CharField(max_length=100, unique=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	first_name = models.CharField(max_length=100, blank=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	last_name = models.CharField(max_length=100, blank=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	email = models.EmailField(blank=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	is_staff = models.BooleanField(default=False,)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	is_active = models.BooleanField(default=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	date_joined = models.DateTimeField(default=timezone.now)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	objects = auth.models.UserManager()>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	EMAIL_FIELD = 'email'>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	USERNAME_FIELD = 'username'>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	# REQUIRED_FIELDS = ['email']>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	def __str__(self): return self.username>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo class Profile(models.Model):>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	class Gender(models.TextChoices):>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 		MALE = 'Male', _('Male')>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 		FEMALE = 'Female', _('Female')>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 		UNKNOWN = 'Unknown', _('Unknown')>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	user = models.OneToOneField(User, on_delete=models.CASCADE)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	gender = models.CharField(max_length=100, blank=True, choices=Gender.choices)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	phone = models.CharField(max_length=100, blank=True, null=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	age = models.IntegerField(blank=True, null=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	address = models.TextField(blank=True, null=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	birthday = models.DateField(max_length=10, blank=True, null=True)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	avatar = models.ImageField(default='images/avatar_default_male.jpg', upload_to='images')>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	def __str__(self): return f"Profile of {self.user.username}">> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	def save(self, *args, **kwargs):>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 		if self.gender == 'Female': self.avatar = 'images/avatar_default_female.jpg'>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 		return super().save(*args, **kwargs)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo def create_user_profile(sender, instance, created, **kwargs):>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	if created: Profile.objects.create(user=instance)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo def save_user_profile(sender, instance, **kwargs):>> apps\$(AUTH_APP_NAME)\models.py
+	@echo 	instance.profile.save()>> apps\$(AUTH_APP_NAME)\models.py
+	@echo.>> apps\$(AUTH_APP_NAME)\models.py
+	@echo models.signals.post_save.connect(create_user_profile, sender=User)>> apps\$(AUTH_APP_NAME)\models.py
+	@echo models.signals.post_save.connect(save_user_profile, sender=User)>> apps\$(AUTH_APP_NAME)\models.py
+
 .PHONY: message
 message:
 	django-admin makemessages --all --ignore=env
