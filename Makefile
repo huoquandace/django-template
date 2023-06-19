@@ -5,6 +5,7 @@
 
 MANAGE_FILE:=manage
 SERVER_PORT:=80
+AUTH_APP_NAME:=authentication
 
 # All
 .PHONY: all
@@ -151,6 +152,8 @@ manage:
 	@echo 	'django.contrib.staticfiles',>> $(MANAGE_FILE).py
 	@echo ]>> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
+	@echo if os.path.exists(BASE_DIR / 'apps/$(AUTH_APP_NAME)'): AUTH_USER_MODEL = '$(AUTH_APP_NAME).User'>> $(MANAGE_FILE).py
+	@echo.>> $(MANAGE_FILE).py
 	@echo MIDDLEWARE = [>> $(MANAGE_FILE).py
 	@echo 	'django.middleware.security.SecurityMiddleware',>> $(MANAGE_FILE).py
 	@echo 	'django.contrib.sessions.middleware.SessionMiddleware',>> $(MANAGE_FILE).py
@@ -197,12 +200,9 @@ manage:
 	@echo APPS_PATH = BASE_DIR / APPS_FOLDER>> $(MANAGE_FILE).py
 	@echo if not os.path.exists(APPS_PATH): os.mkdir(APPS_FOLDER)>> $(MANAGE_FILE).py
 	@echo sys.path.insert(0, os.path.join(BASE_DIR, APPS_FOLDER))>> $(MANAGE_FILE).py
-	@echo.>> $(MANAGE_FILE).py
-	@echo apps_dir = os.listdir(APPS_PATH)>> $(MANAGE_FILE).py
-	@echo for file in apps_dir:>> $(MANAGE_FILE).py
-	@echo 	dir= os.path.join(APPS_PATH, file)>> $(MANAGE_FILE).py
-	@echo 	if os.path.isdir(dir):>> $(MANAGE_FILE).py
-	@echo 		try: __import__(dir.split('\\')[-1] + '.apps', fromlist='__all__')>> $(MANAGE_FILE).py
+	@echo for file in os.listdir(APPS_PATH):>> $(MANAGE_FILE).py
+	@echo 	if os.path.isdir(os.path.join(APPS_PATH, file)):>> $(MANAGE_FILE).py
+	@echo 		try: __import__(file + '.apps', fromlist='__all__')>> $(MANAGE_FILE).py
 	@echo 		except ImportError: pass>> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
 	@echo # Wsgi configs>> $(MANAGE_FILE).py
@@ -222,11 +222,9 @@ manage:
 	@echo 	path('i18n/', include('django.conf.urls.i18n')),>> $(MANAGE_FILE).py
 	@echo ]>> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
-	@echo for file in apps_dir:>> $(MANAGE_FILE).py
-	@echo 	dir= os.path.join(APPS_PATH, file) >> $(MANAGE_FILE).py
-	@echo 	full_path = os.path.join(dir, 'views.py')>> $(MANAGE_FILE).py
+	@echo for file in os.listdir(APPS_PATH):>> $(MANAGE_FILE).py
 	@echo 	try:>> $(MANAGE_FILE).py
-	@echo 		foo = SourceFileLoader('views.py', full_path).load_module()>> $(MANAGE_FILE).py
+	@echo 		foo = SourceFileLoader('views.py', os.path.join(os.path.join(APPS_PATH, file), 'views.py')).load_module()>> $(MANAGE_FILE).py
 	@echo 		urlpatterns += i18n_patterns(foo.inc_path,)>> $(MANAGE_FILE).py
 	@echo 	except: pass>> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
@@ -235,6 +233,10 @@ manage:
 	@echo # )>> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)>> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)>> $(MANAGE_FILE).py
+
+.PHONY: auth
+auth:
+	make app $(AUTH_APP_NAME)
 
 .PHONY: message
 message:
