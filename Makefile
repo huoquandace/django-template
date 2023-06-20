@@ -13,6 +13,7 @@ ROOT_LINK:=https://raw.githubusercontent.com/huoquandace/django-template/main
 test:
 	curl -o $(MANAGE_FILE).py $(ROOT_LINK)/manage.py -s
 	curl -o $(REQUIREMENTS_FILE).txt $(ROOT_LINK)/requirements.txt -s
+	curl -o .gitignore $(ROOT_LINK)/.gitignore -s
 
 
 # All
