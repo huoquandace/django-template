@@ -38,6 +38,8 @@ all:
 .PHONY: venv
 venv:
 	py -m venv .venv
+	@echo Django> requirements.txt
+	@echo Pillow>> requirements.txt
 
 .PHONY: env
 env:
