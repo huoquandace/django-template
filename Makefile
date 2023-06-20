@@ -4,8 +4,16 @@
 # choco install make
 
 MANAGE_FILE:=manage
+REQUIREMENTS_FILE:=requirements
 SERVER_PORT:=80
 AUTH_APP_NAME:=authentication
+ROOT_LINK:=https://raw.githubusercontent.com/huoquandace/django-template/main
+
+.PHONY: test
+test:
+	curl -o $(MANAGE_FILE).py $(ROOT_LINK)/manage.py -s
+	curl -o $(REQUIREMENTS_FILE).txt $(ROOT_LINK)/requirements.txt -s
+
 
 # All
 .PHONY: all
