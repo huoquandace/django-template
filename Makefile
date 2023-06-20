@@ -11,7 +11,17 @@ ROOT_LINK:=https://raw.githubusercontent.com/huoquandace/django-template/main
 .PHONY: test
 test:
 	mkdir apps\authentication
+	curl -s -o apps\authentication\__init__.py $(ROOT_LINK)/authentication/__init__.py
+	mkdir apps\authentication\migrations
+	curl -s -o apps\authentication\migrations/__init__.py $(ROOT_LINK)/authentication/migrations/__init__.py
+	curl -s -o apps\authentication\migrations/.gitignore.py $(ROOT_LINK)/authentication/migrations/.gitignore.py
+	curl -s -o apps\authentication\admin.py $(ROOT_LINK)/authentication/admin.py
+	curl -s -o apps\authentication\apps.py $(ROOT_LINK)/authentication/apps.py
+	curl -s -o apps\authentication\models.py $(ROOT_LINK)/authentication/models.py
+	curl -s -o apps\authentication\urls.py $(ROOT_LINK)/authentication/urls.py
 	curl -s -o apps\authentication\views.py $(ROOT_LINK)/authentication/views.py
+	mkdir templates\authentication
+	curl -s -o templates\authentication\index.html $(ROOT_LINK)/authentication/templates/index.html
 
 
 # All
