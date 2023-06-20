@@ -18,6 +18,10 @@ all:
 	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
 
 # Create env
+.PHONY: venv
+venv:
+	py -m venv .venv
+
 .PHONY: env
 env:
 	pip install -r requirements.txt
@@ -81,9 +85,12 @@ git:
 ignore:
 	@echo __pycache__ > .gitignore
 
-# manage
-.PHONY: manage
-manage:
+# start
+.PHONY: start
+start:
+	@echo Django> requirements.txt
+	@echo Pillow>> requirements.txt
+
 	@echo import os, sys> $(MANAGE_FILE).py
 	@echo from importlib.machinery import SourceFileLoader>> $(MANAGE_FILE).py
 	@echo from pathlib import Path>> $(MANAGE_FILE).py
@@ -164,6 +171,8 @@ manage:
 	@echo 	'django.contrib.messages.middleware.MessageMiddleware',>> $(MANAGE_FILE).py
 	@echo 	'django.middleware.clickjacking.XFrameOptionsMiddleware',>> $(MANAGE_FILE).py
 	@echo ]>> $(MANAGE_FILE).py
+	@echo.>> $(MANAGE_FILE).py
+	@echo if not os.path.exists(BASE_DIR / 'templates'): os.mkdir('templates')>> $(MANAGE_FILE).py
 	@echo.>> $(MANAGE_FILE).py
 	@echo TEMPLATES = [>> $(MANAGE_FILE).py
 	@echo 	{>> $(MANAGE_FILE).py
@@ -292,6 +301,31 @@ auth:
 	@echo models.signals.post_save.connect(create_user_profile, sender=User)>> apps\$(AUTH_APP_NAME)\models.py
 	@echo models.signals.post_save.connect(save_user_profile, sender=User)>> apps\$(AUTH_APP_NAME)\models.py
 
+	@echo from django.contrib import admin> apps\$(AUTH_APP_NAME)\admin.py
+	@echo from django.contrib.auth.admin import UserAdmin>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo.>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo from .models import User, Profile>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo.>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo.>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo class UserAdmin(UserAdmin):>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 	fieldsets = (>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 		(None, {>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 			'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_staff', 'groups')>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 		}),>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 		('Advanced options', {>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 			'classes': ('collapse',),>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 			'fields': ('user_permissions', 'is_active', 'is_superuser', )>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 		}),>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 	)>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 	list_display = ('username', 'email', 'date_joined')>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 	list_filter = ('is_staff', 'is_active', )>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 	search_fields = ('last_name__startswith', )>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 	class Meta:>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo 		ordering = ('date_joined', )>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo.>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo admin.site.register(User, UserAdmin)>> apps\$(AUTH_APP_NAME)\admin.py
+	@echo admin.site.register(Profile)>> apps\$(AUTH_APP_NAME)\admin.py
+
 .PHONY: message
 message:
 	django-admin makemessages --all --ignore=env
@@ -299,3 +333,4 @@ message:
 .PHONY: lang
 lang:
 	django-admin compilemessages --ignore=env
+
