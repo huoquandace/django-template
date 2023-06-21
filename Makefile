@@ -5,9 +5,14 @@
 
 MANAGE_FILE:=manage
 SERVER_PORT:=80
-AUTH_APP_NAME:=authentication
 ROOT_LINK:=https://raw.githubusercontent.com/huoquandace/django-template/main
 
+# Push
+.PHONY: git
+git:
+	git add .
+	git commit -m up
+	git push
 
 # All
 .PHONY: all
@@ -67,15 +72,9 @@ app:
 	@echo.  >> apps\$(ARGS)\views.py
 	@echo inc_path = path('$(ARGS)/', include('$(ARGS).urls')) >> apps\$(ARGS)\views.py
 	@echo. >> apps\$(ARGS)\views.py
-# Push
-.PHONY: git
-git:
-	git add .
-	git commit -m up
-	git push
 
-.PHONY: test
-test:
+.PHONY: init
+init:
 	curl -s -o manage.py $(ROOT_LINK)/base/manage.py
 	curl -s -o requirements.txt $(ROOT_LINK)/base/requirements.txt
 	curl -s -o .gitignore $(ROOT_LINK)/base/.gitignore
