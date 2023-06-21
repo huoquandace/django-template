@@ -37,6 +37,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / 'emails'
 if not os.path.exists(BASE_DIR/'emails'): os.mkdir('emails')
+if not os.path.exists(EMAIL_FILE_PATH/'.gitignore'):
+	f = open(EMAIL_FILE_PATH/'.gitignore', 'w')
+	f.write("*.txt\n*.log")
+	f.close()
 
 # Time configs
 USE_TZ = True
