@@ -10,8 +10,8 @@ locale
 
 static
 
-*templates
-!authentication/templates
+templates/*
+!templates/.gitkeep 
 
 uploads
 
