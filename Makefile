@@ -8,8 +8,10 @@ SERVER_PORT:=80
 AUTH_APP_NAME:=authentication
 ROOT_LINK:=https://raw.githubusercontent.com/huoquandace/django-template/main
 
-.PHONY: test
-test:
+
+
+.PHONY: auth
+auth:
 	mkdir apps\authentication
 	curl -s -o apps\authentication\__init__.py $(ROOT_LINK)/authentication/__init__.py
 	mkdir apps\authentication\migrations
@@ -262,8 +264,8 @@ start:
 	@echo urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)>> $(MANAGE_FILE).py
 	@echo urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)>> $(MANAGE_FILE).py
 
-.PHONY: auth
-auth:
+.PHONY: auth_tpl
+auth_tpl:
 	make app $(AUTH_APP_NAME)
 
 	@echo from django.db import models>> apps\$(AUTH_APP_NAME)\models.py
@@ -353,3 +355,7 @@ message:
 lang:
 	django-admin compilemessages --ignore=env
 
+
+.PHONY: all
+all:
+	
