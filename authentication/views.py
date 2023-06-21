@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.urls import path, include, URLPattern, URLResolver, reverse_lazy
 from django.views import generic
 from django.contrib.auth.views import *
+from django.contrib.auth.mixins import *
 from django.contrib.auth.forms import *
 from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
@@ -11,7 +12,6 @@ inc_path = path('authentication/', include('authentication.urls'))
 
 class AuthIndexView(generic.TemplateView):
     template_name = 'authentication/index.html'
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         urlconf = __import__('apps.authentication.urls', {}, {}, [''])
@@ -35,6 +35,10 @@ class AuthLoginView(LoginView):
             if not user.is_active: raise exceptions.ValidationError(_('User inactive'), code='inactive')
     authentication_form = AuthForm
     template_name = 'authentication/login.html'
-    login_url = reverse_lazy('login')
-    next_page = reverse_lazy('profile')
+    login_url = reverse_lazy('authentication:login')
+    next_page = reverse_lazy('authentication:index')
     redirect_authenticated_user = True # If it is false, authenticated_user is still access to login
+
+class AuthLogoutView(LogoutView):
+    # template_name = 'authentication/logged_out.html'
+    next_page = reverse_lazy('authentication:login') # if not default render to template
