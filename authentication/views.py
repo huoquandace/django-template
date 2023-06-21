@@ -1,11 +1,15 @@
 from django.shortcuts import render, HttpResponse 
-from django.urls import path, include, URLPattern, URLResolver
+from django.urls import path, include, URLPattern, URLResolver, reverse_lazy
 from django.views import generic
+from django.contrib.auth.views import *
+from django.contrib.auth.forms import *
+from django.core import exceptions
+from django.utils.translation import gettext_lazy as _
 
 inc_path = path('authentication/', include('authentication.urls')) 
  
 
-class Index(generic.TemplateView):
+class AuthIndexView(generic.TemplateView):
     template_name = 'authentication/index.html'
     
     def get_context_data(self, **kwargs):
@@ -23,3 +27,14 @@ class Index(generic.TemplateView):
             url_list.append(''.join(p)) 
         context['url_list'] = url_list
         return context
+    
+class AuthLoginView(LoginView):
+    class AuthForm(AuthenticationForm):
+        error_messages = { 'invalid_login': _('Invalid login'), 'inactive': _('Inactive'), }
+        def confirm_login_allowed(self, user):
+            if not user.is_active: raise exceptions.ValidationError(_('User inactive'), code='inactive')
+    authentication_form = AuthForm
+    template_name = 'authentication/login.html'
+    login_url = reverse_lazy('login')
+    next_page = reverse_lazy('profile')
+    redirect_authenticated_user = True # If it is false, authenticated_user is still access to login
