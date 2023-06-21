@@ -8,8 +8,8 @@ SERVER_PORT:=80
 ROOT_LINK:=https://raw.githubusercontent.com/huoquandace/django-template/main
 
 # Push
-.PHONY: git
-git:
+.PHONY: push
+push:
 	git add .
 	git commit -m up
 	git push
