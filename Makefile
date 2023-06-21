@@ -36,17 +36,6 @@ all:
 		get_user_model().objects.create_superuser('admin', 'admin@admin.com', 'admin')"
 	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
 
-# Create env
-.PHONY: venv
-venv:
-	py -m venv .venv
-	@echo Django> requirements.txt
-	@echo Pillow>> requirements.txt
-
-.PHONY: env
-env:
-	pip install -r requirements.txt
-
 # Runserver
 .PHONY: server
 server:
@@ -356,6 +345,32 @@ lang:
 	django-admin compilemessages --ignore=env
 
 
-.PHONY: all
-all:
+.PHONY: test
+test:
+	curl -s -o manage.py $(ROOT_LINK)/base/manage.py
+	curl -s -o requirements.txt $(ROOT_LINK)/base/requirements.txt
+	curl -s -o .gitignore $(ROOT_LINK)/base/.gitignore
+	pip install -r requirements.txt
 	
+	mkdir apps\authentication
+	curl -s -o apps\authentication\__init__.py $(ROOT_LINK)/authentication/__init__.py
+	mkdir apps\authentication\migrations
+	curl -s -o apps\authentication\migrations/__init__.py $(ROOT_LINK)/authentication/migrations/__init__.py
+	curl -s -o apps\authentication\migrations/.gitignore $(ROOT_LINK)/authentication/migrations/.gitignore
+	curl -s -o apps\authentication\admin.py $(ROOT_LINK)/authentication/admin.py
+	curl -s -o apps\authentication\apps.py $(ROOT_LINK)/authentication/apps.py
+	curl -s -o apps\authentication\models.py $(ROOT_LINK)/authentication/models.py
+	curl -s -o apps\authentication\urls.py $(ROOT_LINK)/authentication/urls.py
+	curl -s -o apps\authentication\views.py $(ROOT_LINK)/authentication/views.py
+	mkdir templates\authentication
+	curl -s -o templates\authentication\index.html $(ROOT_LINK)/authentication/templates/index.html
+
+	python $(MANAGE_FILE).py makemigrations
+	python $(MANAGE_FILE).py migrate
+	python $(MANAGE_FILE).py shell -c "from django.contrib.auth import get_user_model; \
+		get_user_model().objects.filter(username='admin').exists() or \
+		get_user_model().objects.create_superuser('admin', 'admin@admin.com', 'admin')"
+	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
+
+	django-admin makemessages --all --ignore=env
+	django-admin compilemessages --ignore=env
