@@ -73,9 +73,9 @@ app:
 	@echo inc_path = path('$(ARGS)/', include('$(ARGS).urls')) >> apps\$(ARGS)\views.py
 	@echo. >> apps\$(ARGS)\views.py
 
-# curl -s -o .gitignore $(ROOT_LINK)/base/.gitignore
 .PHONY: init
 init:
+	curl -s -o .gitignore $(ROOT_LINK)/base/.gitignore
 	curl -s -o manage.py $(ROOT_LINK)/base/manage.py
 	curl -s -o requirements.txt $(ROOT_LINK)/base/requirements.txt
 	pip install -r requirements.txt
@@ -103,3 +103,17 @@ init:
 
 	django-admin makemessages --all --ignore=env
 	django-admin compilemessages --ignore=env
+
+.PHONY: rm
+rm:
+	rmdir __pycache__ /s /q
+	rmdir apps /s /q
+	rmdir emails /s /q
+	rmdir locale /s /q
+	rmdir static /s /q
+	rmdir templates /s /q
+	rmdir uploads /s /q
+	del __init__.py
+	del db.sqlite3
+	del manage.py
+	del requirements.txt
