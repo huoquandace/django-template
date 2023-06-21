@@ -42,3 +42,27 @@ class AuthLoginView(LoginView):
 class AuthLogoutView(LogoutView):
     # template_name = 'authentication/logged_out.html'
     next_page = reverse_lazy('authentication:login') # if not default render to template
+
+class AuthPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'authentication/password_change_form.html'
+    success_url = reverse_lazy('authentication:password_change_done')
+
+class AuthPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
+    template_name = 'authentication/password_change_done.html'
+
+class AuthPasswordResetView(PasswordResetView):
+    template_name = 'authentication/password_reset_form.html'
+    success_url = reverse_lazy('authentication:password_reset_done')
+    from_email = 'system@sys.com'
+    email_template_name = 'authentication/password_reset_email.html'
+    subject_template_name = 'authentication/password_reset_subject.txt'
+
+class AuthPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'authentication/password_reset_done.html'
+
+class AuthPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'authentication/password_reset_confirm.html'
+    success_url = reverse_lazy('authentication:password_reset_complete')
+
+class AuthPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'authentication/password_reset_complete.html'

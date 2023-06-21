@@ -93,6 +93,14 @@ init:
 	mkdir templates\authentication
 	curl -s -o templates\authentication\index.html $(ROOT_LINK)/authentication/templates/index.html
 	curl -s -o templates\authentication\login.html $(ROOT_LINK)/authentication/templates/login.html
+	curl -s -o templates\authentication\password_change_done.html $(ROOT_LINK)/authentication/templates/password_change_done.html
+	curl -s -o templates\authentication\password_change_form.html $(ROOT_LINK)/authentication/templates/password_change_form.html
+	curl -s -o templates\authentication\password_reset_complete.html $(ROOT_LINK)/authentication/templates/password_reset_complete.html
+	curl -s -o templates\authentication\password_reset_confirm.html $(ROOT_LINK)/authentication/templates/login.html
+	curl -s -o templates\authentication\password_reset_done.html $(ROOT_LINK)/authentication/templates/password_reset_done.html
+	curl -s -o templates\authentication\password_reset_email.html $(ROOT_LINK)/authentication/templates/password_reset_email.html
+	curl -s -o templates\authentication\password_reset_form.html $(ROOT_LINK)/authentication/templates/password_reset_form.html
+	curl -s -o templates\authentication\password_reset_subject.txt $(ROOT_LINK)/authentication/templates/password_reset_subject.txt
 
 	python $(MANAGE_FILE).py makemigrations
 	python $(MANAGE_FILE).py migrate
