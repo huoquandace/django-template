@@ -14,7 +14,7 @@ test:
 	curl -s -o apps\authentication\__init__.py $(ROOT_LINK)/authentication/__init__.py
 	mkdir apps\authentication\migrations
 	curl -s -o apps\authentication\migrations/__init__.py $(ROOT_LINK)/authentication/migrations/__init__.py
-	curl -s -o apps\authentication\migrations/.gitignore.py $(ROOT_LINK)/authentication/migrations/.gitignore.py
+	curl -s -o apps\authentication\migrations/.gitignore $(ROOT_LINK)/authentication/migrations/.gitignore
 	curl -s -o apps\authentication\admin.py $(ROOT_LINK)/authentication/admin.py
 	curl -s -o apps\authentication\apps.py $(ROOT_LINK)/authentication/apps.py
 	curl -s -o apps\authentication\models.py $(ROOT_LINK)/authentication/models.py
