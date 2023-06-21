@@ -10,7 +10,8 @@ locale
 
 static
 
-templates
+*templates
+!authentication/templates
 
 uploads
 
