@@ -73,11 +73,11 @@ app:
 	@echo inc_path = path('$(ARGS)/', include('$(ARGS).urls')) >> apps\$(ARGS)\views.py
 	@echo. >> apps\$(ARGS)\views.py
 
+# curl -s -o .gitignore $(ROOT_LINK)/base/.gitignore
 .PHONY: init
 init:
 	curl -s -o manage.py $(ROOT_LINK)/base/manage.py
 	curl -s -o requirements.txt $(ROOT_LINK)/base/requirements.txt
-	curl -s -o .gitignore $(ROOT_LINK)/base/.gitignore
 	pip install -r requirements.txt
 	
 	mkdir apps\authentication
@@ -92,6 +92,7 @@ init:
 	curl -s -o apps\authentication\views.py $(ROOT_LINK)/authentication/views.py
 	mkdir templates\authentication
 	curl -s -o templates\authentication\index.html $(ROOT_LINK)/authentication/templates/index.html
+	curl -s -o templates\authentication\login.html $(ROOT_LINK)/authentication/templates/login.html
 
 	python $(MANAGE_FILE).py makemigrations
 	python $(MANAGE_FILE).py migrate
