@@ -109,11 +109,12 @@ init:
 	python $(MANAGE_FILE).py shell -c "from django.contrib.auth import get_user_model; \
 		get_user_model().objects.filter(username='admin').exists() or \
 		get_user_model().objects.create_superuser('admin', 'admin@admin.com', 'admin')"
-	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
 
 	django-admin makemessages --all --ignore=env
 	django-admin compilemessages --ignore=env
 
+	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
+	
 .PHONY: rm
 rm:
 	rmdir __pycache__ /s /q
