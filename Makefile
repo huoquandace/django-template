@@ -87,6 +87,7 @@ init:
 	curl -s -o apps\authentication\migrations/.gitignore $(ROOT_LINK)/authentication/migrations/.gitignore
 	curl -s -o apps\authentication\admin.py $(ROOT_LINK)/authentication/admin.py
 	curl -s -o apps\authentication\apps.py $(ROOT_LINK)/authentication/apps.py
+	curl -s -o apps\authentication\forms.py $(ROOT_LINK)/authentication/forms.py
 	curl -s -o apps\authentication\models.py $(ROOT_LINK)/authentication/models.py
 	curl -s -o apps\authentication\urls.py $(ROOT_LINK)/authentication/urls.py
 	curl -s -o apps\authentication\views.py $(ROOT_LINK)/authentication/views.py
