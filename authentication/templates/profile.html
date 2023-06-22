@@ -1,0 +1,4 @@
+{{ user.username }} | {{ user.email }} | {{ user.date_joined | date:'d-m-Y' }} |
+<a href="{% url 'authentication:logout' %}">logout</a> |
+<a href="{% url 'authentication:profile_update' user.id %}">update</a> |
+<a href="{% url 'authentication:password_change' %}">password-change</a>

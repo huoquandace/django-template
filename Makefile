@@ -103,6 +103,7 @@ init:
 	curl -s -o templates\authentication\password_reset_subject.txt $(ROOT_LINK)/authentication/templates/password_reset_subject.txt
 	curl -s -o templates\authentication\register.html $(ROOT_LINK)/authentication/templates/register.html
 	curl -s -o templates\authentication\register_done.html $(ROOT_LINK)/authentication/templates/register_done.html
+	curl -s -o templates\authentication\profile.html $(ROOT_LINK)/authentication/templates/profile.html
 
 	python $(MANAGE_FILE).py makemigrations
 	python $(MANAGE_FILE).py migrate

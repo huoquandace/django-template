@@ -9,6 +9,8 @@ from django.contrib.auth.forms import *
 from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
 
+from authentication.models import Profile
+
 inc_path = path('authentication/', include('authentication.urls'))
 
 
@@ -97,3 +99,6 @@ class AuthRegisterDoneView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context['username'] = self.request.GET.get('username')
         return context
+    
+class AuthProfileView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'authentication/profile.html'
