@@ -1,6 +1,8 @@
-from django.shortcuts import render, HttpResponse 
-from django.urls import path, include, URLPattern, URLResolver, reverse_lazy
+from django.shortcuts import render, HttpResponse, redirect 
+from django.urls import path, include, URLPattern, URLResolver, reverse_lazy, reverse
+from django import forms
 from django.views import generic
+from django.contrib.auth import get_user_model
 from django.contrib.auth.views import *
 from django.contrib.auth.mixins import *
 from django.contrib.auth.forms import *
@@ -66,3 +68,28 @@ class AuthPasswordResetConfirmView(PasswordResetConfirmView):
 
 class AuthPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'authentication/password_reset_complete.html'
+
+class Register(generic.FormView):
+    class RegisterForm(UserCreationForm):
+        class Meta:
+            model = get_user_model()
+            fields = ('username', 'email')
+            field_classes = {'username': UsernameField}
+            widgets = {'email': forms.EmailInput(attrs={'required': True})}
+    template_name = 'authentication/register.html'
+    form_class = RegisterForm
+    def form_valid(self, form):
+        new_user = get_user_model().objects.create_user(
+            username = form.cleaned_data['username'],
+            password = form.cleaned_data['password1'],
+            email = form.cleaned_data['email'],
+        )
+        url = f"{reverse('authentication:register_done')}?username={new_user.username}"
+        return redirect(url)
+
+class RegisterDone(generic.TemplateView):
+    template_name = 'authentication/register_done.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['username'] = self.request.GET.get('username')
+        return context
