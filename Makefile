@@ -115,6 +115,8 @@ init:
 	django-admin makemessages --all --ignore=env
 	django-admin compilemessages --ignore=env
 
+	cls
+
 	python $(MANAGE_FILE).py runserver $(SERVER_PORT)
 	
 .PHONY: rm
