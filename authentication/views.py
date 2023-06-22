@@ -1,15 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect 
 from django.urls import path, include, URLPattern, URLResolver, reverse_lazy, reverse
-from django import forms
 from django.views import generic
 from django.contrib.auth import get_user_model, backends
 from django.contrib.auth.views import *
 from django.contrib.auth.mixins import *
-from django.contrib.auth.forms import *
-from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
 
 from authentication.models import Profile
+from authentication.forms import *
 
 inc_path = path('authentication/', include('authentication.urls'))
 
@@ -37,10 +35,6 @@ class AuthIndexView(generic.TemplateView):
         return context
     
 class AuthLoginView(LoginView):
-    class AuthForm(AuthenticationForm):
-        error_messages = { 'invalid_login': _('Invalid login'), 'inactive': _('Inactive'), }
-        def confirm_login_allowed(self, user):
-            if not user.is_active: raise exceptions.ValidationError(_('User inactive'), code='inactive')
     authentication_form = AuthForm
     template_name = 'authentication/login.html'
     login_url = reverse_lazy('authentication:login')
@@ -76,12 +70,6 @@ class AuthPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'authentication/password_reset_complete.html'
 
 class AuthRegisterView(generic.FormView):
-    class RegisterForm(UserCreationForm):
-        class Meta:
-            model = get_user_model()
-            fields = ('username', 'email')
-            field_classes = {'username': UsernameField}
-            widgets = {'email': forms.EmailInput(attrs={'required': True})}
     template_name = 'authentication/register.html'
     form_class = RegisterForm
     def form_valid(self, form):
