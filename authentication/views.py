@@ -2,15 +2,19 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.urls import path, include, URLPattern, URLResolver, reverse_lazy, reverse
 from django import forms
 from django.views import generic
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, backends
 from django.contrib.auth.views import *
 from django.contrib.auth.mixins import *
 from django.contrib.auth.forms import *
 from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
 
-inc_path = path('authentication/', include('authentication.urls')) 
- 
+inc_path = path('authentication/', include('authentication.urls'))
+
+
+class AuthModelBackend(backends.ModelBackend):
+    def user_can_authenticate(self, user):
+        return True
 
 class AuthIndexView(generic.TemplateView):
     template_name = 'authentication/index.html'
@@ -69,7 +73,7 @@ class AuthPasswordResetConfirmView(PasswordResetConfirmView):
 class AuthPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'authentication/password_reset_complete.html'
 
-class Register(generic.FormView):
+class AuthRegisterView(generic.FormView):
     class RegisterForm(UserCreationForm):
         class Meta:
             model = get_user_model()
@@ -87,7 +91,7 @@ class Register(generic.FormView):
         url = f"{reverse('authentication:register_done')}?username={new_user.username}"
         return redirect(url)
 
-class RegisterDone(generic.TemplateView):
+class AuthRegisterDoneView(generic.TemplateView):
     template_name = 'authentication/register_done.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -70,7 +70,9 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 ]
 
-if os.path.exists(BASE_DIR / 'apps/authentication'): AUTH_USER_MODEL = 'authentication.User'
+if os.path.exists(BASE_DIR / 'apps/authentication'):
+	AUTH_USER_MODEL = 'authentication.User'
+	AUTHENTICATION_BACKENDS = ['authentication.views.AuthModelBackend',]
 
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
