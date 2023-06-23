@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>None</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+
+  <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet"type="text/css" />
+
+
+  <style>
+    body {
+      font-size: 13px;
+    }
+
+    ul, li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    header {
+      border-top: 3px solid #F48225;
+      border-bottom: 1px solid #D6D9DC;
+      height: 56px;
+    }
+    
+    .header-fixed-top {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      max-width: 1264px;
+      margin: auto;
+    }
+    
+    .logo {
+      height: 100%;
+    }
+    
+    .logo-title {
+      width: 166px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+    }
+    .logo-title:hover {
+      background-color: #E3E6E8;
+    }
+    .logo-title > svg {
+      margin-top: -4px;
+    }
+    #logo-svg-title {
+      scale: 96%;
+      transform: translate(2px, 2px);
+    }
+
+    .products_ads > ul{
+      padding: 2px 0;
+      display: flex;
+    }
+
+    .products_ads > ul > li{
+      padding: 4px 12px;
+      text-transform: capitalize;
+    }
+    
+    .products_ads > ul > li:hover{
+      background-color: #E3E6E8;
+      border-radius: 1000px;
+      cursor: pointer;
+    }
+
+    #search {
+      padding: 0 8px;
+      display: flex;
+      flex-grow: 1;
+    }
+
+    #search input {
+      flex-grow: 1;
+    }
+
+    .actions {
+      padding-right: 12px;
+      height: 100%;
+    }
+    
+    .actions > ul {
+      display: flex;
+      height: 100%;
+    }
+
+    .actions svg {
+      fill: 	#525960;
+    }
+    
+    .actions > ul > li {
+      padding: 0 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .actions > ul > li:hover svg {
+      fill:#232629
+    }
+    .actions > ul > li:hover {
+      background-color: #E3E6E8;
+    }
+    .actions .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 3px;
+    }
+
+    .actions .reputation {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0 4px;
+    }
+
+    .activity-indicator {
+      position: absolute;
+      background-color: #D0393E;
+      color: #fff;
+    }
+
+    main {
+      height: 1000px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-fixed-top">
+      <div class="logo">
+        <a href="" class="logo-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 50.269" width="150" height="30">
+            <path id="logo-svg-title" d="M57.923 31.105l-2.94-.245c-2.265-.184-3.184-1.102-3.184-2.633 0-1.837 1.408-3 4.04-3 1.898 0 3.55.43 4.837 1.47l1.714-1.714c-1.653-1.347-3.92-1.96-6.552-1.96-3.857 0-6.674 2.02-6.674 5.327 0 3 1.898 4.592 5.45 4.898l3 .245c2.082.184 3 1.04 3 2.633 0 2.143-1.837 3.184-4.837 3.184-2.265 0-4.225-.612-5.633-2.082l-1.776 1.776c2.02 1.898 4.41 2.633 7.47 2.633 4.41 0 7.41-2.02 7.41-5.51.06-3.55-2.143-4.715-5.327-5.02zM80.7 22.9c-2.94 0-4.776.55-6.368 2.633l1.714 1.714c1.04-1.53 2.265-2.082 4.592-2.082 3.306 0 4.653 1.347 4.653 3.98v1.776h-5.45c-4.04 0-6.245 2.082-6.245 5.266 0 1.47.5 2.817 1.347 3.674 1.163 1.163 2.633 1.653 5.143 1.653 2.45 0 3.735-.5 5.266-1.96v1.776h2.633V28.96c-.06-3.92-2.45-6.062-7.286-6.062zm4.592 12c0 1.53-.306 2.572-.918 3.123-1.163 1.102-2.5 1.225-4.04 1.225-2.878 0-4.164-.98-4.164-3.123 0-2.082 1.347-3.184 4.04-3.184h5.082v1.96zm13.042-9.613c1.714 0 2.817.5 4.164 2.02l1.776-1.714c-1.837-2.02-3.43-2.633-5.94-2.633-4.592 0-8.02 3.123-8.02 9.307s3.5 9.307 8.02 9.307c2.5 0 4.102-.674 6-2.694l-1.837-1.714c-1.347 1.53-2.45 2.082-4.164 2.082-1.776 0-3.245-.674-4.225-2.082-.857-1.163-1.163-2.572-1.163-4.898 0-2.265.306-3.674 1.163-4.898.98-1.408 2.45-2.082 4.225-2.082zm22.777-2.143h-3.306l-8.266 8.02V15.062h-2.633V41.33h2.633v-6.613l3.245-3.245 6.062 9.858h3.306l-7.53-11.695 6.5-6.5zm12.49-.98c-2.817 0-4.653 1.102-5.817 2.327-1.714 1.776-2.143 3.92-2.143 7.348s.43 5.572 2.143 7.348c1.163 1.225 3.06 2.327 5.817 2.327 2.817 0 4.715-1.102 5.878-2.327 1.714-1.776 2.143-3.92 2.143-7.348s-.43-5.572-2.143-7.348c-1.163-1.225-3.123-2.327-5.878-2.327zm2.204 14.266c-.55.55-1.286.857-2.204.857s-1.653-.306-2.204-.857c-.98-.98-1.102-2.633-1.102-4.592s.122-3.613 1.102-4.592c.55-.55 1.225-.857 2.204-.857.918 0 1.653.306 2.204.857.98.98 1.102 2.633 1.102 4.592s-.122 3.613-1.102 4.592zm18.37-14.022l-3.796 11.695-3.857-11.695h-4.96l6.98 18.92h3.674l6.92-18.92h-4.96zm13.042-.245c-4.898 0-8.266 3.5-8.266 9.674 0 7.654 4.286 9.674 8.756 9.674 3.43 0 5.266-1.04 7.164-3l-2.878-2.817c-1.225 1.225-2.204 1.776-4.286 1.776-2.633 0-4.164-1.776-4.164-4.225h11.817v-2.082c.06-5.143-2.94-9-8.144-9zm-3.613 7.9c.06-.857.122-1.347.43-2.02.5-1.102 1.53-1.96 3.184-1.96 1.592 0 2.633.857 3.184 1.96.306.674.43 1.225.43 2.02h-7.225zm18.797-5.878V22.35H177.8v18.98h4.715V29.94c0-2.388 1.592-3.5 3.06-3.5 1.163 0 1.776.367 2.5 1.102l3.55-3.55c-1.286-1.286-2.633-1.776-4.47-1.776-2.082-.06-3.857.918-4.776 1.96zm10.654-3.735v20.88h4.715V26.4h3.5v-3.613h-3.5v-2.082c0-1.102.55-1.714 1.653-1.714h1.837V15h-2.694c-3.796 0-5.51 2.755-5.51 5.45zm27.676 1.714c-2.817 0-4.653 1.102-5.817 2.327-1.714 1.776-2.143 3.92-2.143 7.348s.43 5.572 2.143 7.348c1.163 1.225 3.06 2.327 5.817 2.327 2.817 0 4.715-1.102 5.878-2.327 1.714-1.776 2.143-3.92 2.143-7.348s-.43-5.572-2.143-7.348c-1.163-1.225-3.123-2.327-5.878-2.327zm2.204 14.266c-.55.55-1.286.857-2.204.857s-1.653-.306-2.204-.857c-.98-.98-1.102-2.633-1.102-4.592s.122-3.613 1.102-4.592c.55-.55 1.225-.857 2.204-.857.918 0 1.653.306 2.204.857.98.98 1.102 2.633 1.102 4.592s-.122 3.613-1.102 4.592zM251.04 22.4l-3.06 11.695-3.857-11.695h-3.43l-3.857 11.695-3.06-11.695h-5.02l5.817 18.92h3.857l3.98-11.878 3.98 11.878h3.857L256 22.4h-4.96zm-42.8 13.226V15h-4.715v20.88c0 2.694 1.653 5.388 5.51 5.388h2.694v-3.98h-1.837c-1.163 0-1.653-.55-1.653-1.653zM70.66 26.022l2.45-2.45h-5.02v-6h-2.633v18.86c0 2.694 1.53 4.898 4.653 4.898h1.898v-2.265h-1.408c-1.714 0-2.45-.98-2.45-2.633v-10.41h2.5z" fill="#222426"/>
+            <path d="M0 50.27V32.33h4.47V45.8h31.35V32.33h4.53v17.94z" fill="#bcbbbb"/>
+            <path d="M9.43 31.105l21.98 4.592.918-4.41-21.98-4.592-.918 4.41zm2.878-10.53l20.328 9.49 1.898-4.04-20.328-9.552-1.898 4.102zm5.633-9.98L35.207 24.92l2.878-3.43L20.818 7.164l-2.878 3.43zM29.084 0L25.47 2.694l13.41 18L42.493 18 29.084 0zM8.94 41.27h22.4V36.8H8.94v4.47z" fill="#f48024"/>
+          </svg>
+        </a>
+      </div>
+      <div class="products_ads">
+        <ul>
+          <li>products</li>
+        </ul>
+      </div>
+      <form action="" id="search">
+        <input type="text">
+      </form>
+      <div class="user-logo"></div>
+      <div class="actions">
+        <ul>
+          <li>
+            <img src="https://www.keycdn.com/img/blog/image-cdn.png" class="avatar" alt="">
+            <div title="Your reputation: 1" class="reputation"> 1 </div>
+          </li>
+          <li>
+            <svg aria-hidden="true" class="svg-icon iconInbox" width="20" height="18" viewBox="0 0 20 18"><path d="M4.63 1h10.56a2 2 0 0 1 1.94 1.35L20 10.79V15a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-4.21l2.78-8.44c.25-.8 1-1.36 1.85-1.35Zm8.28 12 2-2h2.95l-2.44-7.32a1 1 0 0 0-.95-.68H5.35a1 1 0 0 0-.95.68L1.96 11h2.95l2 2h6Z"></path></svg>
+            <span class="activity-indicator">0</span>
+          </li>
+          <li>
+            <svg aria-hidden="true" class="svg-icon iconAchievements" width="18" height="18" viewBox="0 0 18 18"><path d="M15 2V1H3v1H0v4c0 1.6 1.4 3 3 3v1c.4 1.5 3 2.6 5 3v2H5s-1 1.5-1 2h10c0-.4-1-2-1-2h-3v-2c2-.4 4.6-1.5 5-3V9c1.6-.2 3-1.4 3-3V2h-3ZM3 7c-.5 0-1-.5-1-1V4h1v3Zm8.4 2.5L9 8 6.6 9.4l1-2.7L5 5h3l1-2.7L10 5h2.8l-2.3 1.8 1 2.7h-.1ZM16 6c0 .5-.5 1-1 1V4h1v2Z"></path></svg>
+          </li>
+          <li>
+            <svg aria-hidden="true" class="svg-icon iconHelp" width="18" height="18" viewBox="0 0 18 18"><path d="M9 1C4.64 1 1 4.64 1 9c0 4.36 3.64 8 8 8 4.36 0 8-3.64 8-8 0-4.36-3.64-8-8-8Zm.81 12.13c-.02.71-.55 1.15-1.24 1.13-.66-.02-1.17-.49-1.15-1.2.02-.72.56-1.18 1.22-1.16.7.03 1.2.51 1.17 1.23ZM11.77 8c-.59.66-1.78 1.09-2.05 1.97a4 4 0 0 0-.09.75c0 .05-.03.16-.18.16H7.88c-.16 0-.18-.1-.18-.15.06-1.35.66-2.2 1.83-2.88.39-.29.7-.75.7-1.24.01-1.24-1.64-1.82-2.35-.72-.21.33-.18.73-.18 1.1H5.75c0-1.97 1.03-3.26 3.03-3.26 1.75 0 3.47.87 3.47 2.83 0 .57-.2 1.05-.48 1.44Z"></path></svg>
+          </li>
+          <li>
+            <svg aria-hidden="true" class="svg-icon iconStackExchange" width="18" height="18" viewBox="0 0 18 18"><path d="M15 1H3a2 2 0 0 0-2 2v2h16V3a2 2 0 0 0-2-2ZM1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 0 0 2-2v-2H1v2Zm16-7H1v4h16V6Z"></path></svg>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <main></main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
